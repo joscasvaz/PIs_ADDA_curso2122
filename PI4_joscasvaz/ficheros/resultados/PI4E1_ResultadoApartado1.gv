@@ -1,0 +1,23 @@
+strict graph G {
+  1 [ color="blue" label="INV-1 1981" ];
+  2 [ color="blue" label="INV-2 1972" ];
+  3 [ label="INV-3 1983" ];
+  4 [ color="blue" label="INV-4 1987" ];
+  5 [ label="INV-5 1982" ];
+  6 [ color="blue" label="INV-6 1970" ];
+  7 [ color="blue" label="INV-7 1985" ];
+  8 [ color="blue" label="INV-8 1990" ];
+  9 [ color="blue" label="INV-9 1974" ];
+  1 -- 6 [ label="3" ];
+  1 -- 2 [ label="5" ];
+  1 -- 4 [ color="blue" label="7" ];
+  4 -- 7 [ color="blue" label="6" ];
+  4 -- 5 [ label="3" ];
+  4 -- 6 [ label="5" ];
+  5 -- 8 [ label="4" ];
+  6 -- 9 [ label="3" ];
+  6 -- 7 [ color="blue" label="6" ];
+  7 -- 8 [ color="blue" label="6" ];
+  7 -- 9 [ label="2" ];
+  2 -- 3 [ label="1" ];
+}
