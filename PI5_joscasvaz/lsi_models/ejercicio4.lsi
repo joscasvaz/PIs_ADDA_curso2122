@@ -1,0 +1,24 @@
+head section
+
+Integer getN()
+Integer getM()
+
+String getU(Integer i, Integer k)
+Integer getTam(Integer i)
+String getTipo(Integer j)
+Integer getC(Integer j)
+
+Integer n = getN()
+Integer m = getM()
+
+goal section
+
+max(sum(x[j])), j in 0 .. m
+
+constraints section
+
+bounds section
+
+bin
+
+x[j] //variable binaria para indicar si el contenedor j-ésimo está lleno

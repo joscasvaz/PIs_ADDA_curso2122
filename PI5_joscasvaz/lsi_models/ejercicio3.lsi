@@ -1,0 +1,31 @@
+head section
+
+Integer getNumProd()
+Integer getNumComp()
+
+Integer getMaxTProducc()
+Integer getMaxTManual()
+
+Integer getTCompProdProducc(Integer i, Integer j)
+Integer getTCompProdElab(Integer i, Integer j)
+
+Integer getIngresos(Integer i)
+Integer getMaxUds(Integer i)
+
+Integer n = getNumProd()
+Integer m = getNumComp()
+
+goal section
+
+max sum(getIngresos(i) x[i], i in 0 .. n)
+
+constraints section
+
+sum(getTCompProdProducc(i, j) x[i], i in 0 .. n, j in 0 .. m) <= getMaxTProducc()
+sum(getTCompProdElab(i, j) x[i] , i in 0 .. n, j in 0 .. m) <= getMaxTElab()
+
+bounds section
+x[i] <= getMaxUds(i), i in 0 .. n
+
+int
+x[i], i in 0 .. n
