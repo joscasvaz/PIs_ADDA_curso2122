@@ -16,6 +16,10 @@ public class GeneticoEjercicio1 implements ValuesInRangeData<Integer, SolucionEj
 	private List<Archivo> ficheros = DatosEjercicio1.archivos;
 	private static List<Memoria> memorias = DatosEjercicio1.memorias;
 	
+	private Double goal;
+	private Double penalty;
+	private Double fitness = null;
+	
 	private static List<Integer> capacidades = memorias.stream()
 			.map(Memoria::capacidad)
 			.collect(Collectors.toList());
@@ -26,9 +30,10 @@ public class GeneticoEjercicio1 implements ValuesInRangeData<Integer, SolucionEj
 	@Override
 	public ChromosomeType type() { return ChromosomeType.Range; }
 	
-	public Double goal(List<Integer> ls) {
+	private void calculate(List<Integer> ls) {
 		
-		Integer ficherosGuardados = 0;
+		this.goal = .0;
+		this.penalty = .0;
 		
 		List<Integer> auxCapacidades = List2.copy(capacidades);
 		
@@ -46,51 +51,29 @@ public class GeneticoEjercicio1 implements ValuesInRangeData<Integer, SolucionEj
 				
 				if(tamFichero <= (capMemAsignada - tamFichero)) {
 					
-					auxCapacidades.set(idMemAsignada, capMemAsignada - tamFichero);
-					ficherosGuardados++;
+					auxCapacidades.set(idMemAsignada, (capMemAsignada - tamFichero));
+					goal++;
 				}
-			}
-			
-			i++;
-		}
-		
-		return ficherosGuardados * 1.0;
-	}
-	
-	public Double penalizacion(List<Integer> ls) {
-		
-		Integer penalizacion = 0;
-		
-		int i = 0;
-		
-		while(i < ls.size()) {
-			
-			Integer tamFichero = ficheros.get(i).tam();
-			
-			Integer idMemAsignada = ls.get(i);
-			
-			if(idMemAsignada < memorias.size()) {
 				
 				Integer tamMaxMemAsignada = memorias.get(idMemAsignada).tamMax();
 				
-				if(tamMaxMemAsignada < tamFichero) { penalizacion += (tamFichero - tamMaxMemAsignada); }
+				if(tamMaxMemAsignada < tamFichero) { penalty += (tamFichero - tamMaxMemAsignada); }
 				
-			} else { penalizacion++; }
+			} else { penalty++; }
 			
 			i++;
 		}
-		
-		return penalizacion * 1.0;
 	}
 	
 	@Override
 	public Double fitnessFunction(List<Integer> value) {
 		
-		Double objetivo = goal(value);
-		Integer factorPenalizacion = ficheros.size();
-		Double penalizacion = penalizacion(value);
+		calculate(value);
+		Integer kP = ficheros.size();
 		
-		return objetivo - factorPenalizacion * penalizacion;
+		fitness = goal - kP * penalty;
+		
+		return fitness;
 	}
 
 	@Override
