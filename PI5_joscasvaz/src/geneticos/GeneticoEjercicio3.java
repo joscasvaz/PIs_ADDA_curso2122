@@ -38,22 +38,20 @@ public class GeneticoEjercicio3 implements ValuesInRangeData<Integer, SolucionEj
 		int i = 0;
 		while(i < ls.size()) {
 			
-			Integer ingresos = DatosEjercicio3.getIngresos(i);
-			goal += ingresos;
-			
-			Integer maxUds = DatosEjercicio3.getMaxUds(i);
 			Integer udsProducto = ls.get(i);
+			Integer maxUds = DatosEjercicio3.getMaxUds(i);
+			
+			Integer ingresos = DatosEjercicio3.getIngresos(i);
+			
+			goal += ingresos * udsProducto;
 			
 			if(maxUds < udsProducto) { penalty += udsProducto - maxUds; }
 			
 			int j = 0;
 			while(j < componentes.size()) {
 				
-				if(DatosEjercicio3.tieneComponente(i, j)) {
-					
-					tprodTotal += DatosEjercicio3.getTCompProdProducc(i, j);
-					tmanualTotal += DatosEjercicio3.getTCompProdElab(i, j);
-				}
+				tprodTotal += DatosEjercicio3.getTCompProdProducc(i, j);
+				tmanualTotal += DatosEjercicio3.getTCompProdElab(i, j);
 				
 				j++;
 			}

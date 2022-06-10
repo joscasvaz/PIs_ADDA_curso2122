@@ -92,11 +92,15 @@ public class DatosEjercicio3 {
 	public static Integer getTiempoElab(Integer j) { return componentes.get(j).tElab(); }
 	
 	public static Integer getTCompProdProducc(Integer i, Integer j) {
-		return getTiempoProd(j)*getUdsCompProd(i, j);
+		return tieneComponente(i, j)
+				? getTiempoProd(j) * getUdsCompProd(i, j) 
+				: 0;
 	}
 	
 	public static Integer getTCompProdElab(Integer i, Integer j) {
-		return getTiempoElab(j)*getUdsCompProd(i, j);
+		return tieneComponente(i, j)
+				? getTiempoElab(j) * getUdsCompProd(i, j)
+				: 0;
 	}
 	
 	public static void datos(String fichero) {
