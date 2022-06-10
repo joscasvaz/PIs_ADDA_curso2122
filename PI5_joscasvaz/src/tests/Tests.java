@@ -5,12 +5,12 @@ public class Tests {
 public static void main(String[] args) {
 		
 		//TestEjercicio1.testPLE();
-		TestEjercicio1.testAG();
+		//TestEjercicio1.testAG();
 		
-		/*TestEjercicio2.testPLE();
+		//TestEjercicio2.testPLE();
 		TestEjercicio2.testAG();
 		
-		TestEjercicio3.testPLE();
+		/*TestEjercicio3.testPLE();
 		TestEjercicio3.testAG();
 		
 		TestEjercicio4.testPLE();

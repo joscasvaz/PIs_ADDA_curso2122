@@ -1,5 +1,6 @@
 package geneticos;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,63 +11,76 @@ import soluciones.SolucionEjercicio2;
 import us.lsi.ag.BinaryData;
 
 public class GeneticoEjercicio2 implements BinaryData<SolucionEjercicio2>{
+	
+	List<Candidato> candidatos = DatosEjercicio2.candidatos;
+	List<String> cualidadesDeseadas = DatosEjercicio2.cualidadesDeseadas;
+	Integer presupuesto = DatosEjercicio2.getPresupuesto();
+	
+	private Double goal;
+	private Double penalty;
+	private Double fitness = null;
 
 	@Override
 	public Integer size() { return DatosEjercicio2.getNumCandidatos(); }
-
-	@Override
-	public Double fitnessFunction(List<Integer> value) {
+	
+	private void calcula(List<Integer> ls) {
 		
-		Double objetivo = 0.;
-		Double restricciones = 0.;
+		goal = .0;
+		penalty = .0;
 		
-		Integer esCompatible;
-		Integer cualidadCubierta = null;
+		List<String> seleccionados = new ArrayList<>();
 		
-		Double presupuesto = (double) DatosEjercicio2.getPresupuesto();
-		Set<String> cualidadesTotales = new HashSet<>();
+		Double salarioTotal = .0;
+		Set<String> cualidadesCubiertas = new HashSet<>();
+		Set<String> incompatibilidadesTotales = new HashSet<>();
 		
-		for (int i=0; i<value.size(); i++) {
+		int i = 0;
+		
+		while(i < ls.size()) {
 			
-			if (value.get(i)>0) {
+			if(ls.get(i).equals(1)) {
 				
-				Candidato c = DatosEjercicio2.candidatos.get(i);
-				presupuesto -= c.salario();
+				Candidato candidato = candidatos.get(i);
 				
-				for (int k=0; k<DatosEjercicio2.getNumCualidades(); k++) {
-					
-					cualidadCubierta = DatosEjercicio2.tieneCualidad(i, k);
-					
-					if (cualidadCubierta == 1) {
-						
-						cualidadesTotales.addAll(DatosEjercicio2.candidatos.get(i).cualidades());
-						break;
-					}
-				}
+				seleccionados.add(candidato.id());
 				
-				restricciones += -145689*(cualidadCubierta - 1);
+				Integer valoracion = candidato.valoracion();
+				goal += valoracion;
 				
-				for (int j=1; j<value.size() && j!=i; j++) {
-					
-					if (value.get(j)>0) {
-						
-						esCompatible = DatosEjercicio2.esCompatible(i, j) ? 1 : 0;
-						restricciones += -145689*esCompatible;
-					}
-				}
+				Double salario = candidato.salario();
+				salarioTotal += salario;
 				
-				objetivo += c.valoracion();
+				List<String> cualidades = candidato.cualidades();
+				cualidadesCubiertas.addAll(cualidades);
+				
+				List<String> incompatibilidades = candidato.incompatibilidades();
+				incompatibilidadesTotales.addAll(incompatibilidades);
 			}
+			
+			i++;
 		}
 		
-		cualidadCubierta = cualidadesTotales.stream().toList()
-				.equals(DatosEjercicio2.cualidadesDeseadas) ? 1 : 0;
+		if(presupuesto < salarioTotal) { penalty += salarioTotal - presupuesto; }
 		
-		restricciones += -145689*(cualidadCubierta - 1);
+		if(!cualidadesCubiertas.containsAll(cualidadesDeseadas)) {
+			
+			cualidadesDeseadas.removeAll(cualidadesDeseadas);
+			penalty += cualidadesDeseadas.size();
+		}
 		
-		restricciones += - Math.pow(Math.abs(presupuesto), 2);
+		for(String id:seleccionados) {
+			if(incompatibilidadesTotales.contains(id)) { penalty++; } }
+	}
+	
+	@Override
+	public Double fitnessFunction(List<Integer> ls) {
 		
-		return objetivo + restricciones;
+		calcula(ls);
+		Integer kP = candidatos.size();
+		
+		fitness = goal - kP * penalty;
+		
+		return fitness;
 	}
 
 	@Override
