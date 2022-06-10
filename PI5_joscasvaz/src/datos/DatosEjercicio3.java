@@ -83,21 +83,6 @@ public class DatosEjercicio3 {
 		return productos.get(i).numComp().get(componentes.get(j));
 	}
 	
-	/*Integer getNumProd()
-Integer getNumComp()
-
-Integer getMaxTProducc()
-Integer getMaxTManual()
-
-Integer getTCompProdProducc(Integer i, Integer j)
-Integer getTCompProdElab(Integer i, Integer j)
-
-Integer getIngresos(Integer i)
-Integer getMaxUds(Integer i)
-
-Integer n = getNumProd()
-Integer m = getNumComp()*/
-	
 	public static Boolean tieneComponente(Integer i, Integer j) {
 		return productos.get(i).numComp().keySet().contains(componentes.get(j));
 	}

@@ -14,45 +14,66 @@ public class GeneticoEjercicio3 implements ValuesInRangeData<Integer, SolucionEj
 	private List<Componente> componentes = DatosEjercicio3.componentes;
 	private List<Producto> productos = DatosEjercicio3.productos;
 	
+	private Integer tprod = DatosEjercicio3.getMaxTProducc();
+	private Integer tmanual = DatosEjercicio3.getMaxTManual();
+	
+	private Double goal;
+	private Double penalty;
+	private Double fitness = null;
+	
 	@Override
 	public Integer size() { return DatosEjercicio3.getNumProd(); }
 
 	@Override
 	public ChromosomeType type() { return ChromosomeType.Range; }
-
-	@Override
-	public Double fitnessFunction(List<Integer> value) {
-
-		Double objetivo = 0.;
-		Integer restricciones = 0;
+	
+	private void calcula(List<Integer> ls) {
 		
-		Integer tiempoTotalProd = DatosEjercicio3.getMaxTProducc();
-		Integer tiempoTotalElab = DatosEjercicio3.getMaxTManual();
-		Integer tiempoProd = 0;
-		Integer tiempoElab = 0; 
+		goal = .0;
+		penalty = .0;
 		
-		for (int i=0; i<value.size(); i++) {
+		Integer tprodTotal = 0;
+		Integer tmanualTotal = 0;
+		
+		int i = 0;
+		while(i < ls.size()) {
 			
-			if (value.get(i) > 0) {
+			Integer ingresos = DatosEjercicio3.getIngresos(i);
+			goal += ingresos;
 			
-				objetivo += value.get(i)*productos.get(i).precio();
+			Integer maxUds = DatosEjercicio3.getMaxUds(i);
+			Integer udsProducto = ls.get(i);
 			
-				for (int j=0; j<componentes.size(); j++) {
+			if(maxUds < udsProducto) { penalty += udsProducto - maxUds; }
+			
+			int j = 0;
+			while(j < componentes.size()) {
+				
+				if(DatosEjercicio3.tieneComponente(i, j)) {
 					
-					if (DatosEjercicio3.tieneComponente(i, j)) {
-						
-						tiempoProd += DatosEjercicio3.getTCompProdProducc(i, j) * value.get(i);
-						tiempoElab += DatosEjercicio3.getTCompProdElab(i, j) * value.get(i); 
-						
-					}
+					tprodTotal += DatosEjercicio3.getTCompProdProducc(i, j);
+					tmanualTotal += DatosEjercicio3.getTCompProdElab(i, j);
 				}
 				
-				restricciones += tiempoTotalProd < tiempoProd ? 1 : 0;
-				restricciones += tiempoTotalElab < tiempoElab ? 1 : 0;
+				j++;
 			}
+			
+			i++;
 		}
 		
-		return restricciones < 1 ? objetivo : objetivo - 145689.0*(restricciones);
+		if(tprod < tprodTotal) { penalty += tprodTotal - tprod; }
+		if(tmanual < tmanualTotal) { penalty += tmanualTotal - tmanual; }
+	}
+	
+	@Override
+	public Double fitnessFunction(List<Integer> ls) {
+		
+		calcula(ls);
+		Integer kP = componentes.size() * productos.size();
+		
+		fitness = goal - kP * penalty;
+		
+		return fitness;
 	}
 
 	@Override

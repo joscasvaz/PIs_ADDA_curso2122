@@ -59,7 +59,6 @@ public class TestEjercicio3 {
 		
 		System.out.println(alg.bestSolution());
 		System.out.println(alg.getBestChromosome().fitness() + "\n");
+		}
 	}
-}
-
 }
