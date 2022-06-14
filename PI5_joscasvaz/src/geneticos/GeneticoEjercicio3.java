@@ -27,7 +27,7 @@ public class GeneticoEjercicio3 implements ValuesInRangeData<Integer, SolucionEj
 	@Override
 	public ChromosomeType type() { return ChromosomeType.Range; }
 	
-	private void calcula(List<Integer> ls) {
+	private void calculate(List<Integer> ls) {
 		
 		goal = .0;
 		penalty = .0;
@@ -50,8 +50,8 @@ public class GeneticoEjercicio3 implements ValuesInRangeData<Integer, SolucionEj
 			int j = 0;
 			while(j < componentes.size()) {
 				
-				tprodTotal += DatosEjercicio3.getTCompProdProducc(i, j);
-				tmanualTotal += DatosEjercicio3.getTCompProdElab(i, j);
+				tprodTotal += udsProducto * DatosEjercicio3.getTCompProdProducc(i, j);
+				tmanualTotal += udsProducto * DatosEjercicio3.getTCompProdElab(i, j);
 				
 				j++;
 			}
@@ -66,8 +66,8 @@ public class GeneticoEjercicio3 implements ValuesInRangeData<Integer, SolucionEj
 	@Override
 	public Double fitnessFunction(List<Integer> ls) {
 		
-		calcula(ls);
-		Integer kP = componentes.size() * productos.size();
+		calculate(ls);
+		Integer kP = componentes.size() + productos.size();
 		
 		fitness = goal - kP * penalty;
 		

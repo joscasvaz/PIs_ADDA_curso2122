@@ -28,11 +28,13 @@ private Map<Producto, Integer> map = new HashMap<>();
 			
 			if (par.getValue()>0 && par.getKey().startsWith("x")) {
 				
-				// Para que la id se corresponda con el producto correcto
-				
 				Integer productoId = Integer.valueOf(par.getKey().substring(2)) + 1;
 				String id = String.format("%02d", productoId);
-				producto = DatosEjercicio3.productos.stream().filter(p -> p.id().replace("P", "").trim().equals(id)).findFirst().get();
+				
+				producto = DatosEjercicio3.productos.stream()
+						.filter(p -> p.id().replace("P", "").trim().equals(id))
+						.findFirst()
+						.get();
 				
 				map.put(producto, par.getValue().intValue());
 			}
@@ -48,7 +50,11 @@ private Map<Producto, Integer> map = new HashMap<>();
 			if (ls.get(i)>0) {
 				
 				Integer e = i;
-				producto = DatosEjercicio3.productos.stream().filter(p -> Integer.valueOf(p.id().replace("P", "").trim()).equals(e + 1)).findFirst().get();
+				producto = DatosEjercicio3.productos.stream()
+						.filter(p -> Integer.valueOf(p.id().replace("P", "").trim())
+								.equals(e + 1))
+						.findFirst()
+						.get();
 				
 				map.put(producto, ls.get(i));
 			}
@@ -61,11 +67,14 @@ private Map<Producto, Integer> map = new HashMap<>();
 		Double beneficio = 0.;
 		
 		for (Map.Entry<Producto, Integer> par: map.entrySet()) {
+			
 			finalToString += par.getKey() + ": " + par.getValue() + " unidades" + "\n";
 			Integer uds = par.getValue();
 			beneficio += uds * par.getKey().precio();
 		}
+		
 		finalToString += "\nBeneficio: " + String.format("%.1f", beneficio);
+		
 		return  finalToString;
 	}
 
