@@ -7,7 +7,7 @@ import us.lsi.common.List2;
 
 public class DatosEjercicio4 {
 	
-public static record Elemento(String id, Integer tamaño, List<String> tipos) {
+public static record Elemento(String id, Integer tam, List<String> tipos) {
 		
 		private static Elemento create(String s) {
 			
@@ -15,10 +15,10 @@ public static record Elemento(String id, Integer tamaño, List<String> tipos) {
 			String id = v[0].trim();
 			
 			String[] info = v[1].trim().split(";");
-			Integer tamaño = Integer.valueOf(info[0].trim());
+			Integer tam = Integer.valueOf(info[0].trim());
 			List<String> tipos = List2.parse(info[1].trim().split(","), String::new);  
 
-			return new Elemento(id, tamaño, tipos);
+			return new Elemento(id, tam, tipos);
 		}
 		
 		public String toString() { return id(); }
@@ -48,7 +48,7 @@ public static record Elemento(String id, Integer tamaño, List<String> tipos) {
 	
 	public static Integer getNumCont() { return contenedores.size(); }
 	
-	public static Integer tamEl(Integer i) { return elementos.get(i).tamaño(); }
+	public static Integer tamEl(Integer i) { return elementos.get(i).tam(); }
 	
 	public static Integer capCont(Integer j) { return contenedores.get(j).capacidad(); }
 	

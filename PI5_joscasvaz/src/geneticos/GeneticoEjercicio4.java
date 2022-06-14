@@ -21,48 +21,66 @@ public class GeneticoEjercicio4 implements ValuesInRangeData<Integer, SolucionEj
 	private List<Contenedor> contenedores = DatosEjercicio4.contenedores;
 	private List<Elemento> elementos = DatosEjercicio4.elementos;
 	
-	@Override
-	public Double fitnessFunction(List<Integer> value) {
-
-		Double objetivo = 0.;
-		Double restricciones = 0.;
+	private Double goal;
+	private Double penalty;
+	
+	private Double fitness = null;
+	
+	private void calculate(List<Integer> ls) {
 		
-		Integer m = DatosEjercicio4.contenedores.size();
+		goal = .0;
+		penalty = .0;
 		
-		List<Integer> capacidadContenedores = contenedores.stream()
+		List<Integer> capacidadesRestantes = contenedores.stream()
 				.map(Contenedor::capacidad)
 				.collect(Collectors.toList());
 		
-		Integer esCompatible = 0;
-		
-		for (int i=0; i<value.size(); i++) {
+		int i = 0;
+		while(i < ls.size()) {
 			
-			if (value.get(i)<m) {
+			Integer contenedorAsignado = ls.get(i);
 			
-					esCompatible = DatosEjercicio4.esComp(i, value.get(i)) ? 1 : 0;
-					restricciones += -145689*(1 - esCompatible);
+			if(contenedorAsignado < contenedores.size()) {
+			
+				Integer capacidadContenedor = capacidadesRestantes.get(contenedorAsignado);
+				
+				Integer tamElemento = elementos.get(i).tam();
+				
+				List<String> tiposElemento = elementos.get(i).tipos();
+				
+				String tipoContenedor = contenedores.get(contenedorAsignado).tipo();
+				
+				Integer nuevaCapacidad = capacidadContenedor - tamElemento;
+				
+				if(!tiposElemento.contains(tipoContenedor)) { penalty++; }
+				
+				if(0 <= nuevaCapacidad) {
 					
-				if (capacidadContenedores.get(value.get(i)) > 0) {
-						
-					Integer cap = capacidadContenedores.get(value.get(i));
-					cap -= elementos.get(i).tamaño();
-								
-					if (cap == 0) { objetivo++; }
+					capacidadesRestantes.set(contenedorAsignado, nuevaCapacidad);
 					
-					capacidadContenedores.set(value.get(i), cap);
-				} 
+					if(nuevaCapacidad.equals(0)) { goal++; }
+					
+				} else { penalty += Math.abs(nuevaCapacidad); }
 			}
+			
+			i++;
 		}
+	}
+	
+	@Override
+	public Double fitnessFunction(List<Integer> ls) {
+
+		calculate(ls);
+		Integer kP = contenedores.size() * elementos.size();
 		
-		Integer numContLlenos = (int) capacidadContenedores.stream().filter(x -> x==0).count();
+		fitness = goal - kP * penalty;
 		
-		if (numContLlenos < 1) { restricciones += -145689.0; }
-		
-		return objetivo + restricciones;
+		return fitness;
 	}
 
 	@Override
-	public SolucionEjercicio4 solucion(List<Integer> value) { return SolucionEjercicio4.create(value); }
+	public SolucionEjercicio4 solucion(List<Integer> value) {
+		return SolucionEjercicio4.create(value); }
 
 	@Override
 	public Integer max(Integer i) { return DatosEjercicio4.getNumCont() + 1; }

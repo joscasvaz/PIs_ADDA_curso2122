@@ -11,12 +11,12 @@ public static void main(String[] args) {
 		//TestEjercicio2.testAG();
 		
 		//TestEjercicio3.testPLE();
-		TestEjercicio3.testAG();
+		//TestEjercicio3.testAG();
 		
-		/*TestEjercicio4.testPLE();
+		//TestEjercicio4.testPLE();
 		TestEjercicio4.testAG();
 		
-		TestEjercicio5.testAG();*/
+		//TestEjercicio5.testAG();
 		
 	}
 }
