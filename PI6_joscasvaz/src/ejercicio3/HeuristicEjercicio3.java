@@ -5,7 +5,8 @@ import java.util.stream.IntStream;
 
 public class HeuristicEjercicio3 {
 	
-public static Double heuristic(VertexEjercicio3 v1, Predicate<VertexEjercicio3> goal, VertexEjercicio3 v2) {
+	public static Double heuristic(VertexEjercicio3 v1, Predicate<VertexEjercicio3> goal,
+			VertexEjercicio3 v2) {
 		
 		if (v1.index() >= DatosEjercicio3.getNumProd()) { return 0.; }
 		else {
