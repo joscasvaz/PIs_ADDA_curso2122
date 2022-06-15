@@ -14,9 +14,8 @@ public static void main(String[] args) {
 		//TestEjercicio3.testAG();
 		
 		//TestEjercicio4.testPLE();
-		TestEjercicio4.testAG();
+		//TestEjercicio4.testAG();
 		
-		//TestEjercicio5.testAG();
-		
+		TestEjercicio5.testAG();
 	}
 }

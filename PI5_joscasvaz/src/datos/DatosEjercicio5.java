@@ -69,18 +69,27 @@ public class DatosEjercicio5 {
 			
 		} else if (puntero == 5) {
 			
-			hab = Integer.parseInt(lineas.get(puntero + 1).replace("- Al menos una ciudad intermedia con máximo", "").replace("habitantes", "").trim());
+			hab = Integer.parseInt(lineas.get(puntero + 1)
+					.replace("- Al menos una ciudad intermedia con máximo", "")
+					.replace("habitantes", "").trim());
 			predCiudad = v -> v.habitantes() <= hab;
-			kms = Double.parseDouble(lineas.get(puntero + 2).replace("- Al menos una carretera con al menos", "").replace("kms", "").trim());
+			
+			kms = Double.parseDouble(lineas.get(puntero + 2)
+					.replace("- Al menos una carretera con al menos", "")
+					.replace("kms", "").trim());
 			predCarretera = e -> e.km() >= kms;
 			
 		} else {
 			
-			hab = Integer.parseInt(lineas.get(puntero + 1).replace("- Al menos una ciudad intermedia con mas de", "").replace("habitantes", "").trim());
+			hab = Integer.parseInt(lineas.get(puntero + 1)
+					.replace("- Al menos una ciudad intermedia con mas de", "")
+					.replace("habitantes", "").trim());
 			predCiudad = v -> v.habitantes() > hab;
-			kms = Double.parseDouble(lineas.get(puntero + 2).replace("- Al menos una carretera con menos de", "").replace("kms", "").trim());
-			predCarretera = e -> e.km() < kms;
 			
+			kms = Double.parseDouble(lineas.get(puntero + 2)
+					.replace("- Al menos una carretera con menos de", "")
+					.replace("kms", "").trim());
+			predCarretera = e -> e.km() < kms;
 		}
 		
 		String[] origenDestino = lineas.get(puntero + 3).split(";");

@@ -23,58 +23,72 @@ public class GeneticoEjercicio5 implements SeqNormalData<SolucionEjercicio5>{
 	private Predicate<Ciudad> predicadoCiudad = DatosEjercicio5.predCiudad;
 	private Predicate<Carretera> predicadoCarretera = DatosEjercicio5.predCarretera;
 	
+	private Double goal;
+	private Double penalty;
+	
+	private Double fitness = null;
+	
 	@Override
 	public ChromosomeType type() { return ChromosomeType.PermutationSubList; }
 	
-	@Override
-	public Double fitnessFunction(List<Integer> value) {
+	private void calculate(List<Integer> ls) {
 		
-		Double objetivo = 0.;
-		Double restricciones = 0.;
+		goal = .0;
+		penalty = .0;
 		
-		Integer testCiudad = 0;
-		Integer testCarretera = 0;
-		
-		if(value.size()>=3) {
+		int i = 0;
+		while(i < ls.size()) {
 			
-			for (int i = 0; i<value.size() - 1; i++) {
+			Integer indexCiudad = ls.get(i);
+			
+			if(indexCiudad < DatosEjercicio5.n) {
 				
-				Ciudad ciudadInicial = DatosEjercicio5.graph.getVertex(value.get(i));
-				Ciudad ciudadSiguiente = DatosEjercicio5.graph.getVertex(value.get(i+1));
+				Ciudad ciudadSeleccionada = graph.getVertex(indexCiudad);
+				Boolean cumplePredCiudad = predicadoCiudad.test(ciudadSeleccionada);
 				
-				if (gf.containsEdge(ciudadInicial, ciudadSiguiente)) {
+				if(!cumplePredCiudad) { penalty++; }
+				
+				if(i < ls.size() - 1) {
 					
-					Carretera carretera = gf.getEdge(ciudadInicial, ciudadSiguiente);
-					testCarretera += predicadoCarretera.test(carretera) ? 0 : 1;
-					objetivo += carretera.km();
+					Integer indexVecina = ls.get(i + 1);
 					
-				} else {
+					Ciudad ciudadVecina = graph.getVertex(indexVecina);
+					Boolean cumplePredVecina = predicadoCiudad.test(ciudadVecina);
 					
-					restricciones += 1;
+					if(!cumplePredVecina) { penalty++; }
 					
-				} if (!ciudadInicial.equals(DatosEjercicio5.origen)) {
-					
-					testCiudad += predicadoCiudad.test(ciudadInicial) ? 0 : 1;
-					
+					if(graph.containsEdge(indexCiudad, indexVecina)) {
+						
+						Carretera carreteraSeleccionada = Carretera.of(
+								graph.getEdge(indexCiudad, indexVecina).weight());
+						Boolean cumplePredCarretera = predicadoCarretera
+								.test(carreteraSeleccionada);
+						
+						if(!cumplePredCarretera) { penalty++; }
+						
+						goal -= carreteraSeleccionada.km();
+					}
 				}
 			}
 			
-			Integer origen = DatosEjercicio5.origen.equals(graph.getVertex(value.get(0))) ? 0 : 1;
-			Integer destino = DatosEjercicio5.destino.equals(graph.getVertex(value.get(value.size() - 1))) ? 0 : 1;
-			
-			restricciones += origen + destino + testCiudad + testCarretera;
-		
-		} else {
-			
-			restricciones += 1;
-			
+			i++;
 		}
-		
-		return restricciones < 1 ? - objetivo : - objetivo -145689.0 * restricciones;
 	}
 	
 	@Override
-	public SolucionEjercicio5 solucion(List<Integer> value) { return SolucionEjercicio5.create(value); }
+	public Double fitnessFunction(List<Integer> ls) {
+		
+		calculate(ls);
+		Integer kP = graph.n;
+		
+		fitness = goal - kP * penalty;
+		
+		return fitness;
+	}
+	
+	@Override
+	public SolucionEjercicio5 solucion(List<Integer> ls) {
+		return SolucionEjercicio5.create(ls); }
 	
 	@Override
 	public Integer itemsNumber() { return n; }

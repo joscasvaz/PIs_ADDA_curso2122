@@ -12,11 +12,14 @@ public class SolucionEjercicio5 {
 	private List<Ciudad> ciudades = new ArrayList<>();
 	private Double kms = 0.;
 	
-	public static SolucionEjercicio5 create(List<Integer> value) { return new SolucionEjercicio5(value); }
+	public static SolucionEjercicio5 create(List<Integer> ls) {
+		return new SolucionEjercicio5(ls); }
 	
 	private SolucionEjercicio5(List<Integer> ls) {
 		
-		ciudades = ls.stream().map(i -> DatosEjercicio5.graph.getVertex(i)).toList();
+		ciudades = ls.stream()
+				.map(i -> DatosEjercicio5.graph.getVertex(i))
+				.toList();
 		
 		Ciudad c1 = null;
 		Ciudad c2 = null;
