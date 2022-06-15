@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.jgrapht.GraphPath;
 
+import tests.Tests;
 import us.lsi.common.String2;
 import us.lsi.graphs.alg.AStar;
 import us.lsi.graphs.alg.BackTracking;
@@ -23,7 +24,8 @@ public class TestEjercicio1 {
 			final String SEPARADOR = "\n=======================\n";
 			String path = "./ficheros/PI6Ej1DatosEntrada" + i + ".txt";
 			
-			String2.toConsole("%s%s%s", SEPARADOR, path.replace("./ficheros/", ""), SEPARADOR);
+			String2.toConsole("%s%s%s", SEPARADOR, path.replace("./ficheros/", ""),
+					SEPARADOR);
 			VertexEjercicio1.iniDatos(path);
 			
 			testAStar();
@@ -31,52 +33,35 @@ public class TestEjercicio1 {
 			testDPR();
 		}
 	}
-	
-	private static <T> void tester(Optional<T> op, Boolean create) {
-		
-		T x;
-		
-		if (op.isPresent()) {
-			
-			x = op.get();
-			
-			if(create) {
-				String2.toConsole("%s", SolucionEjercicio1.create(
-						(GraphPath<VertexEjercicio1, EdgeEjercicio1>) x)); }
-			else { String2.toConsole("%s", x); }
-			
-		} else {
-			
-			String2.toConsole("****************");
-			DatosEjercicio1.toConsole();
-			String2.toConsole("No hay solucion.\n");
-		}
-	}
 
 	private static void testAStar() {
 		
 		EGraph<VertexEjercicio1, EdgeEjercicio1> grafo =
-				SimpleVirtualGraph.sum(VertexEjercicio1.initialVertex(),VertexEjercicio1.goal(),
+				SimpleVirtualGraph.sum(VertexEjercicio1.initialVertex(),
+						VertexEjercicio1.goal(),
 						EdgeEjercicio1::weight);
 		
-		AStar<VertexEjercicio1, EdgeEjercicio1> astar = AStar.of(grafo, HeuristicEjercicio1::heuristic,
+		AStar<VertexEjercicio1, EdgeEjercicio1> astar = AStar.of(grafo,
+				HeuristicEjercicio1::heuristic,
 				AStarType.Max);
 		
 		Optional<GraphPath<VertexEjercicio1, EdgeEjercicio1>> sol = astar.search();
 		
 		String2.toConsole("==== Algoritmo A* ====\n\n");
 		
-		tester(sol, true);
+		Tests.tester(sol, true, 1);
 	}
 	
 	private static void testBT() {
 		
 		EGraph<VertexEjercicio1, EdgeEjercicio1> grafo =
-				SimpleVirtualGraph.sum(VertexEjercicio1.initialVertex(), VertexEjercicio1.goal(),
+				SimpleVirtualGraph.sum(VertexEjercicio1.initialVertex(),
+						VertexEjercicio1.goal(),
 						EdgeEjercicio1::weight);
 		
 		BackTracking<VertexEjercicio1, EdgeEjercicio1, SolucionEjercicio1> bt =
-				BackTracking.of(grafo, HeuristicEjercicio1::heuristic, SolucionEjercicio1::create,
+				BackTracking.of(grafo, HeuristicEjercicio1::heuristic,
+						SolucionEjercicio1::create,
 						BTType.Max);
 		
 		bt.search();
@@ -84,23 +69,25 @@ public class TestEjercicio1 {
 		
 		String2.toConsole("\n==== Algoritmo BT ====\n\n");
 		
-		tester(sol, false);
+		Tests.tester(sol, false, 1);
 	}
 	
 	private static void testDPR() {
 			
 		EGraph<VertexEjercicio1, EdgeEjercicio1> grafo =
-				SimpleVirtualGraph.sum(VertexEjercicio1.initialVertex(), VertexEjercicio1.goal(),
+				SimpleVirtualGraph.sum(VertexEjercicio1.initialVertex(),
+						VertexEjercicio1.goal(),
 						EdgeEjercicio1::weight);
 		
 		DynamicProgrammingReduction<VertexEjercicio1, EdgeEjercicio1> dpr =
-				DynamicProgrammingReduction.of(grafo, HeuristicEjercicio1::heuristic, PDType.Max);
+				DynamicProgrammingReduction.of(grafo, HeuristicEjercicio1::heuristic,
+						PDType.Max);
 		
 		Optional<GraphPath<VertexEjercicio1, EdgeEjercicio1>> sol = dpr.search();
 		
 		String2.toConsole("\n==== Algoritmo DPR ====\n\n");
 		
-		tester(sol, true);
+		Tests.tester(sol, true, 1);
 	}
 	
 }
