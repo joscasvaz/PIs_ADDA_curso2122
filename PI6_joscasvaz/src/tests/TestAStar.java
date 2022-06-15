@@ -15,7 +15,7 @@ import us.lsi.graphs.virtual.EGraph;
 
 public class TestAStar {
 	
-	public <V,E> void tester(EGraph<V,E> graph, int ejercicio) {
+	public static <V,E> void test(EGraph<V,E> graph, int ejercicio) {
 		
 		AStar<V,E> astar;
 		Object sol = null;
@@ -58,5 +58,4 @@ public class TestAStar {
 		
 		Tests.tester((Optional<GraphPath<V,E>>) sol, true, ejercicio);
 	}
-	
 }

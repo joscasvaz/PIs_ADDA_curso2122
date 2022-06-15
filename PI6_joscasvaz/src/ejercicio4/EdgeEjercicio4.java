@@ -7,7 +7,7 @@ public record EdgeEjercicio4 (VertexEjercicio4 source, VertexEjercicio4 target, 
 
 	public static EdgeEjercicio4 of(VertexEjercicio4 v1, VertexEjercicio4 v2, Integer acc) {
 		//TODO
-		Double w = .0;
+		Double w = (double) acc * 0;
 		return new EdgeEjercicio4(v1, v2, acc, w);
 	}
 	
