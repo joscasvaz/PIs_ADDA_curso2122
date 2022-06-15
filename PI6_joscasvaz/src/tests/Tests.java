@@ -16,14 +16,33 @@ public class Tests {
 	
 	public static void main(String[] args) {
 		
+		testEji(1);
 		Tests.execute(1, 1);
+		Tests.execute(1, 2);
 		
+		testEji(2);
+		Tests.execute(2, 1);
+		Tests.execute(2, 2);
+		
+		testEji(3);
+		Tests.execute(3, 1);
+		Tests.execute(3, 2);
+		
+		testEji(4);
+		/*Tests.execute(4, 1);
+		Tests.execute(4, 2);*/
 	}
 	
 	private final static String SEPARADOR = "\n=======================\n";
 	
 	private static String path(int ejercicio, int archivo) { return String.format(
 			"./ficheros/PI6Ej%dDatosEntrada%d.txt", ejercicio, archivo); }
+	
+	private static void testEji(int ejercicio) {
+		
+		String2.toConsole("%s%sTESTS EJ%s%s%s",
+				SEPARADOR, SEPARADOR, ejercicio, SEPARADOR, SEPARADOR);
+	}
 	
 	public static <V,E> void execute(int ejercicio, int archivo) {
 		
@@ -90,14 +109,17 @@ public class Tests {
 							(GraphPath<VertexEjercicio1, EdgeEjercicio1>) x).toString());
 					
 				} else if(ejercicio == 2) {
+					
 					String2.toConsole(SolucionEjercicio2.create(
 							(GraphPath<VertexEjercicio2, EdgeEjercicio2>) x).toString());
 					
 				} else if(ejercicio == 3) {
+					
 					String2.toConsole(SolucionEjercicio3.create(
 							(GraphPath<VertexEjercicio3, EdgeEjercicio3>) x).toString());
 					
 				} else if(ejercicio == 4) {
+					
 					String2.toConsole(SolucionEjercicio4.create(
 							(GraphPath<VertexEjercicio4, EdgeEjercicio4>) x).toString());
 					
