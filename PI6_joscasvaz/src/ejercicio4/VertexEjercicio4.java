@@ -2,6 +2,7 @@ package ejercicio4;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -13,13 +14,20 @@ import us.lsi.graphs.virtual.VirtualVertex;
 public record VertexEjercicio4(Integer index, List<Integer> elRestantes, List<Integer> capRestante)
 	implements VirtualVertex<VertexEjercicio4, EdgeEjercicio4, Integer> {
 	
-	static List<Integer> capIniciales = DatosEjercicio4.contenedores.stream()
-			.map(Contenedor::capacidad)
-			.collect(Collectors.toList());
+	static List<Integer> capIniciales;
+	static List<Integer> elIniciales;
 	
-	static List<Integer> elIniciales = IntStream.range(0, DatosEjercicio4.elementos.size())
-			.boxed()
-			.toList();
+	public static void iniDatos(String path) {
+		
+		VertexEjercicio4.capIniciales = DatosEjercicio4.contenedores.stream()
+				.map(Contenedor::capacidad)
+				.collect(Collectors.toList());
+		
+		VertexEjercicio4.elIniciales = IntStream.range(0, DatosEjercicio4.elementos.size())
+				.boxed()
+				.toList();
+		
+	}
 	
 	public static VertexEjercicio4 of(Integer index, List<Integer> elRestantes, List<Integer> capRestante) {
 		return new VertexEjercicio4(index, elRestantes, capRestante);
@@ -31,6 +39,10 @@ public record VertexEjercicio4(Integer index, List<Integer> elRestantes, List<In
 	
 	public static VertexEjercicio4 initialVertex() {
 		return of(0, elIniciales, capIniciales);
+	}
+	
+	public static Predicate<VertexEjercicio4> goal(){
+		return v-> v.index() == DatosEjercicio4.getNumEl();
 	}
 	
 	@Override
@@ -66,7 +78,7 @@ public record VertexEjercicio4(Integer index, List<Integer> elRestantes, List<In
 			int i = 0;
 			while(i < this.capRestante().size()) {
 				
-				Integer capSel = this.capRestante().get(ind);
+				Integer capSel = this.capRestante().get(i);
 				
 				if(0 <= (capSel - tam)){
 					cap = Math.min(cap, capSel - tam);

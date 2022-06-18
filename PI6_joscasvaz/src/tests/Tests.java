@@ -16,7 +16,7 @@ public class Tests {
 	
 	public static void main(String[] args) {
 		
-		testEji(1);
+		/*testEji(1);
 		Tests.execute(1, 1);
 		Tests.execute(1, 2);
 		
@@ -26,11 +26,11 @@ public class Tests {
 		
 		testEji(3);
 		Tests.execute(3, 1);
-		Tests.execute(3, 2);
+		Tests.execute(3, 2);*/
 		
 		testEji(4);
-		/*Tests.execute(4, 1);
-		Tests.execute(4, 2);*/
+		Tests.execute(4, 1);
+		Tests.execute(4, 2);
 	}
 	
 	private final static String SEPARADOR = "\n=======================\n";
@@ -75,7 +75,7 @@ public class Tests {
 					VertexEjercicio3.goal(),
 					EdgeEjercicio3::weight);
 			
-		} /*else if(ejercicio == 4) {
+		} else if(ejercicio == 4) {
 			
 			VertexEjercicio4.iniDatos(ruta);
 			
@@ -83,7 +83,7 @@ public class Tests {
 					VertexEjercicio4.goal(),
 					EdgeEjercicio4::weight);
 			
-		}*/ else { String2.toConsole("ERROR: numero de ejercicio no valido."); }
+		} else { String2.toConsole("ERROR: numero de ejercicio no valido."); }
 		
 		String2.toConsole("%s%s%s",
 			SEPARADOR, ruta.replace("./ficheros/", ""), SEPARADOR);
