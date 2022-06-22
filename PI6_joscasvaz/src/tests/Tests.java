@@ -77,6 +77,7 @@ public class Tests {
 			
 		} else if(ejercicio == 4) {
 			
+			DatosEjercicio4.iniDatos(ruta);
 			VertexEjercicio4.iniDatos(ruta);
 			
 			graph = (EGraph<V,E>) SimpleVirtualGraph.sum(VertexEjercicio4.initialVertex(),

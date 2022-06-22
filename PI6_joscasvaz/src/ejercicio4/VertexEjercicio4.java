@@ -38,7 +38,7 @@ public record VertexEjercicio4(Integer index, List<Integer> elRestantes, List<In
 	}
 	
 	public static VertexEjercicio4 initialVertex() {
-		return of(0, elIniciales, capIniciales);
+		return of(0, VertexEjercicio4.elIniciales, VertexEjercicio4.capIniciales);
 	}
 	
 	public static Predicate<VertexEjercicio4> goal(){
@@ -50,7 +50,7 @@ public record VertexEjercicio4(Integer index, List<Integer> elRestantes, List<In
 		
 		List<Integer> alternativas = new ArrayList<>();
 		
-		if(this.index() < DatosEjercicio4.elementos.size()) {
+		if(this.index() < DatosEjercicio4.getNumEl()) {
 			
 			alternativas = IntStream.range(0, this.elRestantes().size())
 					.boxed()
